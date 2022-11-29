@@ -5,6 +5,7 @@ old_data/
 .ipynb
 .ipynb_checkpoints
 other_assets/
+_dev/
 .ipynb
 
 # Byte-compiled / optimized / DLL files
