@@ -22,10 +22,6 @@ class LinePlot:
             aes(x=x_axis_col, y=y_axis_col, group=1) + \
             theme_minimal(base_family='Palatino', base_size=12) + \
             theme(plot_margin=.125,
-                  # panel_background=element_rect(fill=WHITE),
-                  # plot_background=element_rect(fill=WHITE),
-                  # strip_background=element_rect(fill=WHITE),
-                  # legend_background=element_rect(fill=WHITE),
                   axis_text=element_text(size=12),
                   legend_title=element_blank(),
                   legend_position=None)
