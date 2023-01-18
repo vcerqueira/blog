@@ -12,7 +12,7 @@ def err_barplot(err: pd.Series):
            theme_538(base_family='Palatino', base_size=12) + \
            theme(plot_margin=.2,
                  axis_text=element_text(size=12),
-                 axis_text_x=element_text(size=10, angle=60),
+                 axis_text_x=element_text(size=10, angle=30),
                  legend_title=element_blank(),
                  legend_position='top') + \
            geom_bar(position='dodge',
