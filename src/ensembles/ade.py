@@ -4,30 +4,40 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
-from src.ensembles.committee_ext import ExternalCommittee
 from src.utils.proportion import neg_normalize_and_proportion
 
 
 class Arbitrating:
     """
-    ADE
+    ADE - arbitrated dynamic ensemble
+
+    A metamodel is trained to forecast the error of individual models
+    This error is then normalized to a 0-1 scale
     """
 
-    def __init__(self,
-                 lambda_: int = 50,
-                 committee_size: Optional[float] = None):
+    def __init__(self):
         """
-        :param lambda_: No of recent observations used to trim ensemble
+
+        param committee_size: Ratio of ensembles to keep at each instant after pruning.
+        If None (default), all models are used.
         """
-        self.lambda_ = lambda_
+
         self.meta_model = RandomForestRegressor()
-        self.committee_size = committee_size
         self.col_names = None
 
     def fit(self,
             Y_hat_insample: pd.DataFrame,
             y_insample: Union[pd.Series, np.ndarray],
             X_tr: pd.DataFrame):
+        """
+        Fitting the metamodel using training forecasts
+
+        :param Y_hat_insample: Forecasts of each model in the training data as pd.DF
+        :param y_insample: Actual training values for computing residuals
+        :param X_tr: Training explanatory variables as pd.DF
+
+        :return: self, with trained metamodel
+        """
 
         self.col_names = Y_hat_insample.columns
 
@@ -41,9 +51,16 @@ class Arbitrating:
 
         self.meta_model.fit(X_tr.reset_index(drop=True), base_loss)
 
-    def get_weights(self,
-                    X: pd.DataFrame,
-                    source_weights: Optional[pd.DataFrame] = None):
+    def get_weights(self, X: pd.DataFrame):
+        """
+        Predict the weights of each model for an input data set
+
+
+        param X: Input explanatory variables (e.g. lagged features)
+        param source_weights: External weights for trimming the ensemble. Defaults to None (all models are used)
+
+        return: Weights for each model in the ensemble
+        """
 
         E_hat = self.meta_model.predict(X)
         E_hat = pd.DataFrame(E_hat).abs()
@@ -53,21 +70,4 @@ class Arbitrating:
             func=lambda x: neg_normalize_and_proportion(x),
             axis=1)
 
-        if source_weights is None:
-            return W
-        else:
-            if self.committee_size is None:
-                self.committee_size = 1
-
-            # n_models = int(self.committee_size * E_hat.shape[1])
-
-            committee = ExternalCommittee(omega=self.committee_size,
-                                          col_names=E_hat.columns,
-                                          weights=source_weights)
-
-            W = committee.from_weights(target_weights=W,
-                                       source_weights=source_weights)
-
-            W = pd.DataFrame(W, columns=self.col_names)
-
-            return W
+        return W
