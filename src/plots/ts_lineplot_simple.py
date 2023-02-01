@@ -20,7 +20,7 @@ class LinePlot:
         plot = \
             ggplot(data) + \
             aes(x=x_axis_col, y=y_axis_col, group=1) + \
-            theme_minimal(base_family='Palatino', base_size=12) + \
+            theme_538(base_family='Palatino', base_size=12) + \
             theme(plot_margin=.125,
                   axis_text=element_text(size=12),
                   legend_title=element_blank(),
