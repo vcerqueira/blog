@@ -10,7 +10,7 @@ from src.cv_extensions.sliding_tss import SlidingTimeSeriesSplit
 from src.cv_extensions.holdout import Holdout
 from src.mccv import MonteCarloCV
 
-from src.cv_plot import cv_plot_points
+from src.cv_plot import cv_plot_points, cv_plot_points_blank
 
 N_SPLITS = 5
 N = 30
@@ -37,6 +37,7 @@ plot_bcv, _ = cv_plot_points(bcv, X, y)
 plot_hvbcv, _ = cv_plot_points(hvbcv, X, y)
 plot_mcv, _ = cv_plot_points(mcv, X, y)
 plot_mccv, _ = cv_plot_points(mccv, X, y)
+plot_mccv2, _ = cv_plot_points_blank(mccv, X, y)
 plot_ho, _ = cv_plot_points(ho, X, y)
 plot_ho += ylim(1, 1)
 
@@ -48,4 +49,5 @@ plot_bcv.save('bcv.pdf', width=WIDTH, height=HEIGHT)
 plot_hvbcv.save('hvbcv.pdf', width=WIDTH, height=HEIGHT)
 plot_mcv.save('mcv.pdf', width=WIDTH, height=HEIGHT)
 plot_mccv.save('mccv.pdf', width=WIDTH, height=HEIGHT)
+plot_mccv2.save('mccv_blank.pdf', width=WIDTH, height=HEIGHT)
 plot_ho.save('ho.pdf', width=WIDTH, height=HEIGHT)
