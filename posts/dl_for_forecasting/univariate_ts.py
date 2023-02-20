@@ -26,6 +26,7 @@ plot = LinePlot.univariate(series_df,
                            line_color='#0058ab', y_lab='No. of Sales')
 plot += facet_wrap('~ Type',nrow=1)
 print(plot)
+plot.save('univ.pdf', height=4, width=8)
 """
 
 """

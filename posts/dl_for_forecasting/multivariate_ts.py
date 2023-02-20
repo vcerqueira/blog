@@ -38,7 +38,7 @@ plot = \
 
 # print(plot)
 
-# plot.save(f'mv_line_plot.pdf', height=5, width=8)
+# plot.save('mv_line_plot.pdf', height=5, width=8)
 
 
 # transforming each variable into a matrix format
