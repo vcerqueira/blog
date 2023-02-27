@@ -95,7 +95,7 @@ tscv = TimeSeriesSplit(n_splits=5, gap=50)
 # defining the search space
 # a simple optimization of the number of trees of a RF
 model = RandomForestRegressor()
-param_search = {'n_estimators': [10, 50, 100, 300],
+param_search = {'n_estimators': [50, 100, 200],
                 'criterion': ['squared_error', 'absolute_error'],
                 'max_depth': [None, 2, 5, 10],
                 'max_features': ['log2', 'sqrt']}
@@ -105,8 +105,10 @@ gs = RandomizedSearchCV(estimator=model,
                         cv=tscv,
                         refit=True,
                         param_distributions=param_search,
-                        n_iter=10, n_jobs=1)
+                        n_iter=10,
+                        n_jobs=1)
 
+# print(X_train_ext.shape)
 gs.fit(X_train_ext, Y_train)
 
 # inference on test set and evaluation
@@ -156,12 +158,11 @@ log_forecasts = final_model.predict(lags_feats)
 # reverting the log transformation
 forecasts = LogTransformation.inverse_transform(log_forecasts)
 
-
 ## Plotting
 
 forecasts_all = [tree.predict(lags_feats)
                  for tree in final_model.estimators_]
-forecasts_df = pd.DataFrame(np.asarray(forecasts_all).reshape(100, 24)).T
+forecasts_df = pd.DataFrame(np.asarray(forecasts_all).reshape(50, 24)).T
 forecasts_df.index = pd.date_range(start=new_series.index[-1], periods=HORIZON + 1, freq='H')[1:]
 
 forecasts_df = LogTransformation.inverse_transform(forecasts_df)
@@ -177,7 +178,7 @@ lagsr['variable'] = 'Lags'
 
 df = pd.concat([lagsr, yhat], axis=0)
 df['variable'] = pd.Categorical(df['variable'], categories=df['variable'].unique())
-df['Type'] = 'Ocean wave height forecasts for the next 24 hours'
+df['Type'] = 'Avg. ocean wave height forecasts for the next 24 hours'
 
 avg_yhat = yhat.groupby('Time').mean().reset_index()
 
@@ -209,9 +210,9 @@ plot += facet_wrap('~ Type', nrow=1)
 plot = \
     plot + \
     xlab('') + \
-    ylab('Wave Height (m)') + \
+    ylab('Wave Height (meters)') + \
     ggtitle('')
 
 print(plot)
 
-plot.save('forecasts_live.pdf', width=10, height=7)
+plot.save('forecasts_live.pdf', width=12, height=7)
