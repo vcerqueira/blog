@@ -27,16 +27,20 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_curve, roc_auc_score
 from plotnine import *
 
-
+# loading diabetes dataset https://github.com/vcerqueira/blog/tree/main/data
 data = pd.read_csv('data/pima.csv')
 
+# splitting target variable from explanatory variables
 X, y = data.drop('target', axis=1), data['target']
 X = X.fillna(X.mean())
 
+# train test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
 
+# doing resampling with smote
 X_res, y_res = SMOTE().fit_resample(X_train, y_train)
 
+#
 rf = RFC()
 smote = RFC()
 icll = ICLL(model_l1=RFC(), model_l2=RFC())
