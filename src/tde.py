@@ -19,7 +19,6 @@ def time_delay_embedding(series: pd.Series,
 
     :return: pd.DataFrame with reconstructed time series
     """
-    print(series)
     assert isinstance(series, pd.Series)
 
     if series.name is None:
