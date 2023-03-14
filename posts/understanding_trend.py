@@ -25,7 +25,6 @@ gdp_uv_plot = \
     labs(x='', y='GDP') + \
     scale_y_continuous(labels=lambda lst: [numerize.numerize(x) for x in lst])
 
-
 gdp_facet_plot = \
     ggplot(series_df.melt('Date')) + \
     aes(x='Date', y='value') + \
@@ -55,7 +54,7 @@ result = model.fit()
 
 rw = pd.Series(np.cumsum(np.random.choice([-1, 1], size=1000)))
 rw_df = rw.reset_index()
-rw_df.columns = ['index','value']
+rw_df.columns = ['index', 'value']
 
 rw_plot = \
     ggplot(rw_df) + \
@@ -71,30 +70,29 @@ rw_plot = \
 
 print(rw_plot)
 
-
 rw100_df = pd.DataFrame([np.cumsum(np.random.choice([-1, 1], size=1000)) for i in range(100)]).T
 
-
 rw_multiple = ggplot(rw100_df.reset_index().melt('index')) + \
-    aes(x='index', y='value', group='variable') + \
-    theme_classic(base_family='Palatino', base_size=12) + \
-    theme(plot_margin=.125,
-          axis_text=element_blank(),
-          legend_title=element_blank(),
-          legend_position=None) + \
-    geom_line(color="#05998c") + \
-    labs(x='', y='')
+              aes(x='index', y='value', group='variable') + \
+              theme_classic(base_family='Palatino', base_size=12) + \
+              theme(plot_margin=.125,
+                    axis_text=element_blank(),
+                    legend_title=element_blank(),
+                    legend_position=None) + \
+              geom_line(color="#05998c") + \
+              labs(x='', y='')
 
 print(rw_multiple)
 
 # UNIT ROOT TESTS
 
 from pmdarima.arima import ndiffs
+
 ndiffs(log_gdp, test='adf')
 
 diff_log_gdp = log_gdp.diff().diff()
 diff_gdp_df = diff_log_gdp.reset_index()
-diff_gdp_df.columns = ['Date','data']
+diff_gdp_df.columns = ['Date', 'data']
 
 diffgdp_plot = \
     ggplot(diff_gdp_df) + \
@@ -109,7 +107,6 @@ diffgdp_plot = \
     labs(x='', y='')
 
 print(diffgdp_plot)
-
 
 # UNIT ROOT TESTING
 
