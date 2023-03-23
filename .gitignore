@@ -5,6 +5,7 @@ old_data/
 .ipynb
 .ipynb_checkpoints
 other_assets/
+data_prep/
 _dev/
 .ipynb
 

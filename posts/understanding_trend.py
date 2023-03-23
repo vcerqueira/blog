@@ -59,7 +59,7 @@ rw_df.columns = ['index', 'value']
 rw_plot = \
     ggplot(rw_df) + \
     aes(x='index', y='value') + \
-    theme_538(base_family='Palatino', base_size=12) + \
+    theme_classic(base_family='Palatino', base_size=12) + \
     theme(plot_margin=.125,
           axis_text=element_text(size=14),
           axis_text_x=element_blank(),
@@ -103,7 +103,7 @@ diffgdp_plot = \
           axis_text_x=element_blank(),
           legend_title=element_blank(),
           legend_position=None) + \
-    geom_line(color="#234f1e", size=1) + \
+    geom_line(color="#234f1e", size=1.5) + \
     labs(x='', y='')
 
 print(diffgdp_plot)
