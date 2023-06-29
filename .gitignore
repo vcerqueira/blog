@@ -8,6 +8,8 @@ other_assets/
 data_prep/
 _dev/
 .ipynb
+.h5
+.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
