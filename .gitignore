@@ -10,6 +10,10 @@ _dev/
 .ipynb
 .h5
 .csv
+http_cache.sqlite
+history_nn.csv
+Untitled.ipynb
+dataframe_images.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
